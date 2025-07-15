@@ -1,5 +1,2 @@
-export{};
-
-declare global{
-    var mongoose: any;
-}
+// Global type declarations for the application
+export {};

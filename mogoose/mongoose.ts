@@ -1,21 +1,26 @@
-import mongoose, { mongo } from "mongoose";
-import '../global';
+import mongoose from "mongoose";
 
-const MONGODB_URI = process.env.MONGODB_URI!;
+const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/authApplication';
 
-let cached = global.mongoose || {conn: null, promise:null};
+const userSchema = new mongoose.Schema({
+    name: { type: String, required: true },
+    email: { type: String, required: true, unique: true },
+    password: { type: String, required: true }
+});
 
-async function connectDB() {
-    if(cached.conn) return cached.conn;
-    console.log(cached.conn);
+export const User = mongoose.models.User || mongoose.model("User", userSchema);
 
-    if(!cached.promise){
-        cached.promise = mongoose.connect(MONGODB_URI, {
-            dbName: "authApplication",
-        });
+// Connection
+export default async function connectDB() {
+    if (mongoose.connections[0].readyState) {
+        return;
     }
-    cached.conn = await cached.promise;
-    return cached.conn;
+    try {
+      console.log("Connecting to database..."+`${MONGODB_URI}`);
+        await mongoose.connect(MONGODB_URI);
+        console.log("Database connected successfully");
+    } catch (error) {
+        console.error("Database connection failed:", error);
+        throw error;
+    }
 }
-
-export default connectDB;
