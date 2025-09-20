@@ -9,10 +9,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     try {
         await connectDB();
-        
-        const { name, email, password } = req.body;
 
-        if (!name || !email || !password) {
+        console.log(req.body);
+        
+        const { name, email, number, password } = req.body;
+
+        if (!name || !email || !password || !number) {
             return res.status(400).json({ message: "All fields are required" });
         }
 
@@ -26,6 +28,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         await User.create({
             name,
             email,
+            number,
             password: hashedPassword
         });
 

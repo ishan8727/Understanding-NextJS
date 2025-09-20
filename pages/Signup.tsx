@@ -5,6 +5,7 @@ import Navbar from '../components/Navbar';
 const signup = () => {
 
   const [name, setName] = useState('');
+  const [number, setNumber] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -20,7 +21,7 @@ const signup = () => {
       const res = await fetch('/api/auth/signup', {
         method: 'POST',
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, email, password })
+        body: JSON.stringify({ name, email, number, password })
       });
 
       const data = await res.json();
@@ -36,7 +37,7 @@ const signup = () => {
       setError('Network error. Please try again.');
     }
   }
-
+email
   return (
     <div className="min-h-screen bg-gray-50">
       <Navbar isLoggedIn={false} />
@@ -74,6 +75,17 @@ const signup = () => {
                 value={email}
                 onChange={(e)=>setEmail(e.target.value)}
                 placeholder="you@example.com"
+                className="w-full border-b border-gray-500 focus:outline-none focus:border-green-500 text-gray-800 py-2"
+              />
+            </div>
+             <div>
+              <label className="block text-gray-600 font-medium text-sm">Enter number</label>
+              <input
+                
+                name="number"
+                value={number}
+                onChange={(e)=>setNumber(e.target.value)}
+                placeholder="234123413243"
                 className="w-full border-b border-gray-500 focus:outline-none focus:border-green-500 text-gray-800 py-2"
               />
             </div>

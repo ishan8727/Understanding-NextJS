@@ -5,12 +5,13 @@ const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/authAp
 const userSchema = new mongoose.Schema({
     name: { type: String, required: true },
     email: { type: String, required: true, unique: true },
+    number: { type: String, required: true, unique: true },
     password: { type: String, required: true }
 });
 
 export const User = mongoose.models.User || mongoose.model("User", userSchema);
 
-// Connection
+
 export default async function connectDB() {
     if (mongoose.connections[0].readyState) {
         return;
